@@ -1,0 +1,17 @@
+<html>
+<ul>
+  <h1>Details of Complaint</h1>
+  <li>Posted By : {{complaint.posted_by}}</li>
+  <li>Email id : {{complaint.email}}</li>
+  <li>Posted on: {{complaint.date}}</li>
+<li>Resolved: {{complaint.resolved}}
+
+{% if complaint.resolved %}
+
+ {% else %}
+ <a href="/resolved/complaint/{{complaint.id}}/"> <button type="button" onclick="alert('Are you sure??')">Resolved</button> </a>
+{% endif %}
+</li>
+
+</ul>
+</html>
