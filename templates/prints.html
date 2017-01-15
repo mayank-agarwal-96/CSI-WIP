@@ -40,7 +40,7 @@ h1 {
       <td> {{complaint.data}} </td>
       <td> {{complaint.validity}} </td>
       <td> <a href="/reject/complaint/{{complaint.id}}/" > <button type="button" onclick="alert('Are you sure??')">REJECT</button> </a> </td>
-      <td> <button type="button">VIEW</button> </td>
+      <td> <a href="/complaint/{{complaint.id}}/"> <button type="button">VIEW</button> </a> </td>
     </tr>
   {% endfor %}
 </table>

@@ -10,3 +10,7 @@ class Complaint(models.Model):
     data=models.CharField(max_length=140)
     validity=models.BooleanField(default=True)
     resolved=models.BooleanField(default=False)
+
+    def __str__(self):
+          return self.posted_by
+
