@@ -16,10 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from complaint.views import show_complaints
-from complaint.views import reject
+from complaint.views import reject, signup
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^show/$',show_complaints),
     url(r'^reject/complaint/(\d{1,2})/$',reject),
+    url(r'^register/$',signup),
+    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
 ]
