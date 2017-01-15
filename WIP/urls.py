@@ -17,9 +17,15 @@ from django.conf.urls import url
 from django.contrib import admin
 from complaint.views import show_complaints
 from complaint.views import reject
+from complaint.views import index
+from complaint.views import resolved
+from complaint.views import detail
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^show/$',show_complaints),
     url(r'^reject/complaint/(\d{1,2})/$',reject),
+    url(r'^complaint/$',index),
+    url(r'^resolved/complaint/(\d{1,2})/$',resolved),
+    url(r'^complaint/(\d{1,2})/',detail),
 ]
