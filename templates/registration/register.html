@@ -1,0 +1,13 @@
+{% block content %}
+  <h2>SIGN UP</h2>
+  <form method="post">
+    {% csrf_token %}
+    User:  <input type="text" name="name" />
+    <br>
+    Password:  <input type="password" name="password" />
+    <br>
+    Email: <input type="email" name="email">
+    <br>
+    <button type="submit">REGISTER</button>
+  </form>
+{% endblock %}
