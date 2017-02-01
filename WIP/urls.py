@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^show/$',show_complaints),
     url(r'^reject/complaint/(\d{1,2})/$',reject),
     url(r'^register/$',signup),
-    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^complaint/$',index),
     url(r'^resolved/complaint/(\d{1,2})/$',resolved),
