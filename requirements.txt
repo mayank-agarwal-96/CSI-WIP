@@ -1,0 +1,10 @@
+Django==1.10.5
+django-bootstrap3==8.1.0
+django-jsonview==0.4.3
+oauthlib==2.0.1
+requests==2.13.0
+requests-oauthlib==0.7.0
+six==1.10.0
+swapper==0.1.1
+tweepy==3.5.0
+twitter-monitor==0.3.0
