@@ -1,7 +1,34 @@
 <html>
+<head>
+<style>
+
+input[type=text], select {
+    width:25%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    max-width: 140ch;
+}
+
+input[type=submit] {
+    width: 10%;
+    background-color: grey;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
 <ul>
   <h1>Details of Complaint</h1>
-  <li>Posted By : {{complaint.posted_by}}</li>
+  <li>Posted By :{{complaint.posted_by}}</li>
   <li>Email id : {{complaint.email}}</li>
   <li>Posted on: {{complaint.date}}</li>
 <li>Resolved: {{complaint.resolved}}
@@ -14,4 +41,12 @@
 </li>
 
 </ul>
+<div>
+    <form method="POST" action="">
+    <label for="fname">Write a Reply:</label>
+    <input type="text" id="fname" name="firstname">
+    <input type="submit" value="Submit">
+  </form>
+</div>
+</body>
 </html>
