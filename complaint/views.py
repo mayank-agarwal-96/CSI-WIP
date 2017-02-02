@@ -1,3 +1,5 @@
+import tweepy
+
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse
 from django import forms
@@ -6,6 +8,13 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from complaint.models import Complaint
 from django.contrib.auth.decorators import login_required
+
+
+ckey="IIrRWz5fhgMj1gjrDKdiikpDX"
+csecret="VwwcHWHCGLtTFGMz46aPJZAvHFeiG47rA6xC1o0cYwSCpgZZk3"
+atoken="819527335107956737-l3DhAfD6zfMUzxkwGi5i4ahaknjYz3V"
+asecret="xtnRXB3XbWx9KwRpmUK5MgEMCgyLS90Qd65fFTHEXA9uy"
+
 
 def index(request):
     all_complaint=Complaint.objects.all()
@@ -35,8 +44,15 @@ def show_complaints(request):
 
 @login_required(login_url="/")
 def reject(request,get_id):
+    auth = tweepy.OAuthHandler(ckey, csecret)
+    auth.set_access_token(atoken, asecret)
+
+    api = tweepy.API(auth)
+
     get_id=int(get_id)
     remove=Complaint.objects.get(id=get_id)
+    cid = remove.cid
+    api.update_status("This complaint is rejected!", in_reply_to_status_id = cid)
     remove.validity=False
     remove.save()
     html=remove.validity
