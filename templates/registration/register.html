@@ -1,13 +1,226 @@
-{% block content %}
-  <h2>SIGN UP</h2>
-  <form method="post">
-    {% csrf_token %}
-    User:  <input type="text" name="name" />
-    <br>
-    Password:  <input type="password" name="password" />
-    <br>
-    Email: <input type="email" name="email">
-    <br>
-    <button type="submit">REGISTER</button>
-  </form>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Complaint Login</title>
+<link rel="stylesheet" type="text/css" href="register.css">
+</head>
+<body>
+  <style>
+  @import url(http://fonts.googleapis.com/css?family=Exo:100,200,400);
+  @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400,300);
+
+
+  body{
+    margin: 0;
+    padding: 0;
+    /*background: #fff;*/
+    background-color: #ec7063 ;
+    opacity: 0.8;
+    /*color: #fff;*/
+    font-family: Arial;
+    font-size: 12px;
+  }
+
+  h1 {
+    color: #2c3e50;
+    font-size: 80px;
+    opacity: 0.6;
+    padding-top: 150px;
+      padding-right: 100px;
+      padding-bottom: 100px;
+      padding-left: 500px;
+
+  }
+
+  .body{
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -40px;
+    bottom: -40px;
+    width: auto;
+    height: auto;
+    /*background-image: url(background2.jpg);*/
+    -webkit-filter: blur(6px);
+    z-index: 0;
+  }
+
+  /*.navbar {
+    position: relative;
+    top: -400px;
+    left: 230px;
+    font-family:'Exo', sans-serif;
+
+  }*/
+
+  .topic{
+    position: relative;
+
+  }
+
+  .cf:before,
+  .cf:after {
+      content: " ";
+      display: table;
+  }
+
+  .cf:after {
+      clear: both;
+  }
+
+  .cf {
+      *zoom: 1;
+  }
+
+
+  .header{
+    position: absolute;
+    top: calc(50% - 10px);
+    left: calc(50% - 555px);
+    z-index: 2;
+  }
+
+  .header div{
+    float: left;
+    color: black;
+    font-family: 'Exo', sans-serif;
+    font-size: 60px;
+    font-weight: 200;
+  }
+
+  .header div span{
+    color: black !important;
+  }
+
+  .login{
+    position: absolute;
+    top: calc(50% - 60px);
+    left: calc(50% + 225px);
+    height: 150px;
+    width: 350px;
+    padding: 10px;
+    z-index: 2;
+  }
+
+  .login input[type=text]{
+    width: 250px;
+    height: 30px;
+    background: #b3b6b7;
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 2px;
+    color: white;
+    font-family: 'Exo', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 4px;
+  }
+
+  .login input[type=email]{
+    width: 250px;
+    height: 30px;
+    background: #b3b6b7;
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 2px;
+    color: white;
+    font-family: 'Exo', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 4px;
+    margin-top: 10px;
+  }
+
+  .login input[type=password]{
+    width: 250px;
+    height: 30px;
+    background:  #7b7d7d;
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 2px;
+    color: white;
+    font-family: 'Exo', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 4px;
+    margin-top: 10px;
+  }
+
+  .login button{
+    width: 260px;
+    height: 35px;
+    background: black;
+    border: 1px solid #fff;
+    cursor: pointer;
+    border-radius: 2px;
+    color: #a18d6c;
+    font-family: 'Exo', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 6px;
+    margin-top: 10px;
+  }
+
+  .login button:hover{
+    opacity: 0.8;
+  }
+
+  .login button:active{
+    opacity: 0.6;
+  }
+
+  .login input[type=text]:focus{
+    outline: none;
+    border: 1px solid rgba(255,255,255,0.9);
+  }
+
+  .login input[type=email]:focus{
+    outline: none;
+    border: 1px solid rgba(255,255,255,0.9);
+  }
+
+  .login input[type=password]:focus{
+    outline: none;
+    border: 1px solid rgba(255,255,255,0.9);
+  }
+
+  .login button:focus{
+    outline: none;
+  }
+
+/*  ::-webkit-input-placeholder{
+     color: rgba(255,255,255,0.6);
+  }
+
+  ::-moz-input-placeholder{
+     color: rgba(255,255,255,0.6);
+  }*/
+
+  .pass {
+    font-family: 'Exo', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #fff;
+    padding-top:9px;
+  }
+
+  </style>
+<h1>REGISTRATION PAGE</h1>
+<img src="/static/complaint/images/5.jpg" >
+<div class="body"></div>
+		<div class="header">
+			<div class="topic">LNMIIT <span>COMPLAINTS</span></div>
+		</div>
+		<br>
+		<div class="vr"></div>
+		<div class="login">
+      <form method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="Username" name="user"><br>
+				<input type="password" placeholder="Password" name="password"><br>
+        <input type="email" placeholder="Email" name="email"><br>
+        <button type="submit">REGISTER</button>
+      </form>
+		</div>
+
+
+</body>
+</html>
