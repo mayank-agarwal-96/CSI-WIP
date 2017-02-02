@@ -17,18 +17,20 @@ class listener(StreamListener):
     def on_data(self, data):
         all_data = json.loads(data)
         complaint=Complaint()
-        
+
         tweet = all_data["text"]
-        
+        string_id=all_data["id_str"]
+
         username = all_data["user"]["screen_name"]
         complaint.posted_by=username
         complaint.data=tweet
         complaint.email="xy@gamil.com"
         complaint.date=datetime.now()
         complaint.department="d"
+        complaint.cid=string_id
         complaint.save()
         print((username,tweet))
-        
+
         return True
 
     def on_error(self, status):
