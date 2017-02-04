@@ -16,19 +16,18 @@ csecret="VwwcHWHCGLtTFGMz46aPJZAvHFeiG47rA6xC1o0cYwSCpgZZk3"
 atoken="819527335107956737-l3DhAfD6zfMUzxkwGi5i4ahaknjYz3V"
 asecret="xtnRXB3XbWx9KwRpmUK5MgEMCgyLS90Qd65fFTHEXA9uy"
 
-
-def index(request):
-    all_complaint=Complaint.objects.all()
-    context = {'all_complaint' : all_complaint}
-    return render(request,'complaint/print.html',context)
-
 @login_required(login_url="/")
 def resolved(request,cid):
+    auth = tweepy.OAuthHandler(ckey, csecret)
+    auth.set_access_token(atoken, asecret)
+
+    api = tweepy.API(auth)
     cid=int(cid)
-    remove=Complaint.objects.get(id=cid)
-    remove.resolved=True
-    remove.save()
-    html=remove.resolved
+    complaint=Complaint.objects.get(id=cid)
+    complaint.resolved=True
+    compid = complaint.cid
+    api.update_status("This complaint is resolved!", in_reply_to_status_id = compid)
+    complaint.save()
     return redirect(show_complaints)
 
 @login_required(login_url="/")

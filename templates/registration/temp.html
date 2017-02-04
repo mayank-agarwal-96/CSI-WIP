@@ -102,15 +102,20 @@ font-family: "Roboto", sans-serif;
 </style>
 <div class="login-page">
   <div class="form">
-    <form method="post">
+    <form class="register-form">
+      <input type="text" placeholder="name"/>
+      <input type="password" placeholder="password"/>
+      <input type="text" placeholder="email address"/>
+      <button>create</button>
+      <p class="message">Already registered? <a href="#">Sign In</a></p>
+    </form>
+    <form class="login-form">
+      {% csrf_token %}
 
-        {% csrf_token %}
-        <input type="text" placeholder="Username" name="user"><br>
-        <input type="password" placeholder="Password" name="password"><br>
-        <input type="email" placeholder="Email" name="email"><br>
-        <button type="submit">REGISTER</button>
-
-        <p class="message">Already registered? <a href="/">Sign In</a></p>
+      <input type="text" placeholder="Username" id="id_username" name="username"><br>
+      <input type="password" placeholder="Password" id="id_password" name="password"><br>
+      <button type="submit">Login</button>
+      <p class="message">Not registered? <a href="#">Create an account</a></p>
     </form>
   </div>
 </div>

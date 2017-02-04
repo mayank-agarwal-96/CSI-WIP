@@ -2,9 +2,6 @@
 .numberlist{
     width:450px;
 }
-body{
-  background-color: #76b852;
-}
 
 .numberlist ol{
                 counter-reset: li;
@@ -58,10 +55,11 @@ body{
 
 	 <ol>
      <h1>Details of Complaint</h1>
-     <li><a href=""> Posted By :{{complaint.posted_by}}</a></li>
-     <li><a href="">Email id : {{complaint.email}}</a></li>
-     <li><a href="">Posted on: {{complaint.date}}</a></li>
-     <li>
+     <li>Posted By :{{complaint.posted_by}}</li>
+     <li>Email id : {{complaint.email}}</li>
+     <li>Posted on: {{complaint.date}}</li>
+     <li>Resolved: {{complaint.resolved}}
+
      {% if complaint.resolved %}
 
       {% else %}
@@ -72,4 +70,3 @@ body{
 	 </ol>
 
 	</div>
-<a href="/"> <button type="button">LOGOUT</button> </a>

@@ -19,7 +19,6 @@ from complaint.views import show_complaints
 from complaint.views import reject, signup
 from django.contrib.auth import views as auth_views
 from complaint.views import reject
-from complaint.views import index
 from complaint.views import resolved
 from complaint.views import detail
 
@@ -29,8 +28,7 @@ urlpatterns = [
     url(r'^reject/complaint/(\d{1,2})/$',reject),
     url(r'^register/$',signup),
     url(r'^$', auth_views.login, name='login'),
-    url(r'^logout/$', auth_views.logout, name='logout'),
-    url(r'^complaint/$',index),
+    url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^resolved/complaint/(\d{1,2})/$',resolved),
     url(r'^complaint/(\d{1,2})/',detail),
 ]
