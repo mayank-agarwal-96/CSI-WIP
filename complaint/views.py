@@ -1,12 +1,13 @@
 import tweepy
-
+import hashlib
+import datetime
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse
 from django import forms
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
-from complaint.models import Complaint
+from complaint.models import Complaint, Profile
 from django.contrib.auth.decorators import login_required
 
 
@@ -39,7 +40,7 @@ def detail(request, cid):
 @login_required(login_url="/")
 def show_complaints(request):
     #if user.is_authenticated()
-    all_complaint=Complaint.objects.all()
+    all_complaint=Complaint.objects.all().filter(validity=True,resolved=False)
     return render(request,'prints.html',{'complaints' : all_complaint})
 
 @login_required(login_url="/")
@@ -52,7 +53,8 @@ def reject(request,get_id):
     get_id=int(get_id)
     remove=Complaint.objects.get(id=get_id)
     cid = remove.cid
-    api.update_status("This complaint is rejected!", in_reply_to_status_id = cid)
+    username = remove.posted_by
+    api.update_status("@" + username +" This complaint is rejected!", in_reply_to_status_id = cid)
     remove.validity=False
     remove.save()
     html=remove.validity
