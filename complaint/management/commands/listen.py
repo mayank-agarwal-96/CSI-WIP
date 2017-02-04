@@ -45,4 +45,4 @@ class Command(BaseCommand):
         auth.set_access_token(atoken, asecret)
 
         twitterStream = Stream(auth, listener())
-        twitterStream.filter(track=["#lnmiit_complaints"])
+        twitterStream.filter(track=["#lnmiitComplaints"])
