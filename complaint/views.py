@@ -26,7 +26,8 @@ def resolved(request,cid):
     complaint=Complaint.objects.get(id=cid)
     complaint.resolved=True
     compid = complaint.cid
-    api.update_status("This complaint is resolved!", in_reply_to_status_id = compid)
+    username = complaint.posted_by
+    api.update_status("@" + username +" Your complaint with id "+ str(cid) + " is resolved!", in_reply_to_status_id = compid)
     complaint.save()
     return redirect(show_complaints)
 
@@ -53,7 +54,7 @@ def reject(request,get_id):
     remove=Complaint.objects.get(id=get_id)
     cid = remove.cid
     username = remove.posted_by
-    api.update_status("@" + username +" This complaint is rejected!", in_reply_to_status_id = cid)
+    api.update_status("@" + username +" Your complaint with id "+ str(get_id) +" is rejected!", in_reply_to_status_id = cid)
     remove.validity=False
     remove.save()
     html=remove.validity
