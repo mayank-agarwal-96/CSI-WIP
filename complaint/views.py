@@ -1,5 +1,6 @@
 import tweepy
-
+import hashlib
+import datetime
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse
 from django import forms
@@ -26,7 +27,8 @@ def resolved(request,cid):
     complaint=Complaint.objects.get(id=cid)
     complaint.resolved=True
     compid = complaint.cid
-    api.update_status("This complaint is resolved!", in_reply_to_status_id = compid)
+    username = complaint.posted_by
+    api.update_status("@" + username +" Your complaint with id "+ str(cid) + " is resolved!", in_reply_to_status_id = compid)
     complaint.save()
     return redirect(show_complaints)
 
@@ -64,7 +66,8 @@ def reject(request,get_id):
     get_id=int(get_id)
     remove=Complaint.objects.get(id=get_id)
     cid = remove.cid
-    api.update_status("This complaint is rejected!", in_reply_to_status_id = cid)
+    username = remove.posted_by
+    api.update_status("@" + username +" Your complaint with id "+ str(get_id) +" is rejected!", in_reply_to_status_id = cid)
     remove.validity=False
     remove.save()
     html=remove.validity
