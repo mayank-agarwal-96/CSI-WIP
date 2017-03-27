@@ -121,3 +121,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000/show'
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = os.environ.get("WIP_EMAIL", None)
+EMAIL_HOST_PASSWORD = os.environ.get("WIP_PASSWORD", None)
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True

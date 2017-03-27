@@ -88,7 +88,7 @@ def signup(request):
         user1.set_password(password)
         user1.save()
         profile.user=user1
-        profile.department=department
+        profile.department=department.lower()
         profile.save()
 
         return redirect(show_complaints)

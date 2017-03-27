@@ -5,7 +5,9 @@ from tweepy.streaming import StreamListener
 from datetime import datetime
 import time
 import json
-from complaint.models import Complaint
+from complaint.models import Complaint, Profile
+from django.core.mail import send_mail
+
 
 ckey="IIrRWz5fhgMj1gjrDKdiikpDX"
 csecret="VwwcHWHCGLtTFGMz46aPJZAvHFeiG47rA6xC1o0cYwSCpgZZk3"
@@ -40,7 +42,13 @@ class listener(StreamListener):
         complaint.department=dept
         complaint.cid=string_id
         complaint.save()
-
+        users = Profile.objects.filter(department = dept)
+        recepients = [str(name.user.email) for name in users]
+        print recepients
+        subject = "New Complaint Posted in " + dept
+        msg = tweet
+        frm = "LNMIIT Complaints"
+        send_mail(subject, msg, frm, recepients)
         print(dept)
         return True
 
