@@ -6,9 +6,10 @@ from django import forms
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
-from complaint.models import Complaint
+from complaint.models import Complaint,Profile
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.views import logout, login
+from django.db.models import Q
 
 ckey="IIrRWz5fhgMj1gjrDKdiikpDX"
 csecret="VwwcHWHCGLtTFGMz46aPJZAvHFeiG47rA6xC1o0cYwSCpgZZk3"
@@ -38,7 +39,19 @@ def detail(request, cid):
 @login_required(login_url="/")
 def show_complaints(request):
     #if user.is_authenticated()
+    current_user=request.user
+    print current_user
+    try:
+        name = Profile.objects.get(user = current_user)
+    #department=current_user.profile.department
+    #print department
+        department=name.department
+        print department
+    except:
+        department = None
     all_complaint=Complaint.objects.all().filter(validity=True,resolved=False)
+    if department is not None:
+        all_complaint = all_complaint.filter(Q(department=department) | Q(department=""))
     return render(request,'prints.html',{'complaints' : all_complaint})
 
 @login_required(login_url="/")
@@ -58,15 +71,27 @@ def reject(request,get_id):
     return redirect(show_complaints)
 
 def signup(request):
+    logout(request)
     if request.method == "POST":
         name = request.POST.get('user', None)
         email = request.POST.get('email', None)
         password = request.POST.get('password', None)
+        department = request.POST.get('preference', None)
+        print department
+        profile=Profile()
         user1=User()
         user1.username=name
         user1.email=email
         user1.set_password(password)
         user1.save()
+        profile.user=user1
+        profile.department=department
+        profile.save()
+
         return redirect(show_complaints)
     else:
         return render(request, 'registration/register.html')
+
+def logout_page(request):
+    logout(request)
+    return redirect(login)

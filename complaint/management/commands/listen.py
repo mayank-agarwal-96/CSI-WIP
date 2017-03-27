@@ -2,10 +2,10 @@ from django.core.management.base import BaseCommand, CommandError
 from tweepy import Stream
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
-from complaint.models import Complaint
 from datetime import datetime
 import time
 import json
+from complaint.models import Complaint
 
 ckey="IIrRWz5fhgMj1gjrDKdiikpDX"
 csecret="VwwcHWHCGLtTFGMz46aPJZAvHFeiG47rA6xC1o0cYwSCpgZZk3"
@@ -20,17 +20,28 @@ class listener(StreamListener):
 
         tweet = all_data["text"]
         string_id=all_data["id_str"]
-
         username = all_data["user"]["screen_name"]
+        #dept=all_data["entities"]["hashtags"][1]["text"]
+
+        length1=len(all_data["entities"]["hashtags"])
+        flag=1;
+        for i in range(length1):
+            dept=all_data["entities"]["hashtags"][i]["text"]
+            dept = dept.lower()
+            if(dept=="education" or dept=="cosha"):
+                flag=0
+                break;
+        if flag!=0:
+            dept=""
+
         complaint.posted_by=username
         complaint.data=tweet
-        complaint.email="xy@gamil.com"
         complaint.date=datetime.now()
-        complaint.department="d"
+        complaint.department=dept
         complaint.cid=string_id
         complaint.save()
-        print((username,tweet))
 
+        print(dept)
         return True
 
     def on_error(self, status):
@@ -45,4 +56,4 @@ class Command(BaseCommand):
         auth.set_access_token(atoken, asecret)
 
         twitterStream = Stream(auth, listener())
-        twitterStream.filter(track=["#lnmiit_complaints"])
+        twitterStream.filter(track=["#lnmiitComplaints"])

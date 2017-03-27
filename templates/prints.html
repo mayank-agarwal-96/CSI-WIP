@@ -180,11 +180,11 @@ button{
 <tr>
 {% for complaint in complaints %}
 <td class="text-left">{{complaint.posted_by}}</td>
-<td class="text-left">{{complaint.data}}</td>
+<td class="text-left">{{complaint.department}}</td>
 <td class="text-left"><a href="/reject/complaint/{{complaint.id}}/" > <button type="button" onclick="alert('Are you sure??')">REJECT</button> </a></td>
 <td class="text-left"><a href="/complaint/{{complaint.id}}/"> <button type="button">VIEW</button> </a> </td>
 </tr>
 {% endfor %}
-<a href="/"> <button type="button">LOGOUT</button> </a>
+<a href="/logout"> <button type="button">LOGOUT</button> </a>
 </table>
 </body>
