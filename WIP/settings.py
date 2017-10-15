@@ -140,7 +140,8 @@ TWITTER_CSECRET = os.environ.get("TWITTER_CSECRET", None)
 TWITTER_ATOKEN = os.environ.get("TWITTER_ATOKEN", None)
 TWITTER_ASECRET = os.environ.get("TWITTER_ASECRET", None)
 
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+CELERY_BROKER_URL = os.environ.get("CLOUD_AMPQ", 'amqp://guest:guest@localhost:5672/')
+BROKER_POOL_LIMIT = 20
 
 
 import dj_database_url
