@@ -105,6 +105,7 @@ def login_view(request):
         return redirect('login')
 
     else:
+        logout(request)
         return render(request, 'login.html', {'form': LoginForm()})
 
 
