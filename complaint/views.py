@@ -1,44 +1,51 @@
-import tweepy
-import hashlib
 import datetime
-from django.shortcuts import render, redirect
-from django.http import Http404, HttpResponse
-from django import forms
-from django.contrib.auth.models import User
-from django.http import HttpResponse
-from django.shortcuts import render
-from complaint.models import Complaint,Profile
+import tweepy
+
+from complaint.models import Complaint, Profile
+from complaint.forms import SignUpForm, ProfileForm, LoginForm
+from complaint.decorators import user_approved_by_admin
+from django.conf import settings
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib.auth.views import logout, login
 from django.db.models import Q
+from django.http import Http404
+from django.shortcuts import render, redirect
 
-ckey="IIrRWz5fhgMj1gjrDKdiikpDX"
-csecret="VwwcHWHCGLtTFGMz46aPJZAvHFeiG47rA6xC1o0cYwSCpgZZk3"
-atoken="819527335107956737-l3DhAfD6zfMUzxkwGi5i4ahaknjYz3V"
-asecret="xtnRXB3XbWx9KwRpmUK5MgEMCgyLS90Qd65fFTHEXA9uy"
+
+ckey = settings.TWITTER_CKEY
+csecret = settings.TWITTER_CSECRET
+atoken = settings.TWITTER_ATOKEN
+asecret = settings.TWITTER_ASECRET
+
 
 @login_required(login_url="/")
-def resolved(request,cid):
-    auth = tweepy.OAuthHandler(ckey, csecret)
-    auth.set_access_token(atoken, asecret)
-
-    api = tweepy.API(auth)
+@user_approved_by_admin
+def resolved(request, cid):
     cid=int(cid)
     complaint=Complaint.objects.get(id=cid)
     complaint.resolved=True
     compid = complaint.cid
     username = complaint.posted_by
-    api.update_status("@" + username +" Your complaint with id "+ str(cid) + " is resolved!", in_reply_to_status_id = compid)
     complaint.save()
+    auth = tweepy.OAuthHandler(ckey, csecret)
+    auth.set_access_token(atoken, asecret)
+    api = tweepy.API(auth)
+    api.update_status("@" + username +" Your complaint with id "+ str(cid) + " is resolved!", in_reply_to_status_id = compid)    
     return redirect(show_complaints)
 
-@login_required(login_url="/")
-def detail(request, cid):
-    data = Complaint.objects.get(pk = cid)
-    context = {'complaint': data}
-    return render(request,'complaint/complaint.html',context)
 
 @login_required(login_url="/")
+@user_approved_by_admin
+def complaint_detail(request, cid):
+    data = Complaint.objects.get(pk=cid)
+    context = {'complaint': data}
+    return render(request, 'complaint_detail.html', context)
+
+
+@login_required(login_url="/")
+@user_approved_by_admin
 def show_complaints(request):
     #if user.is_authenticated()
     current_user=request.user
@@ -51,12 +58,14 @@ def show_complaints(request):
         print department
     except:
         department = None
-    all_complaint=Complaint.objects.all().filter(validity=True,resolved=False)
+    all_complaint=Complaint.objects.all().filter(validity=True, resolved=False)
     if department is not None:
         all_complaint = all_complaint.filter(Q(department=department) | Q(department=""))
     return render(request,'prints.html',{'complaints' : all_complaint})
 
+
 @login_required(login_url="/")
+@user_approved_by_admin
 def reject(request,get_id):
     auth = tweepy.OAuthHandler(ckey, csecret)
     auth.set_access_token(atoken, asecret)
@@ -73,28 +82,58 @@ def reject(request,get_id):
     html=remove.validity
     return redirect(show_complaints)
 
-def signup(request):
-    logout(request)
-    if request.method == "POST":
-        name = request.POST.get('user', None)
-        email = request.POST.get('email', None)
-        password = request.POST.get('password', None)
-        department = request.POST.get('preference', None)
-        print department
-        profile=Profile()
-        user1=User()
-        user1.username=name
-        user1.email=email
-        user1.set_password(password)
-        user1.save()
-        profile.user=user1
-        profile.department=department.lower()
-        profile.save()
 
-        return redirect(show_complaints)
+def login_view(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('all-complaints')
+        return redirect('login')
+
     else:
-        return render(request, 'registration/register.html')
+        return render(request, 'login.html', {'form': LoginForm()})
+
+
+def signup(request):
+    if request.method == "POST":
+        userform = SignUpForm( request.POST,prefix="userform")
+        profileform = ProfileForm( request.POST,prefix="profileform")
+
+        if userform.is_valid() and profileform.is_valid():
+            userform.save()
+            username = userform.cleaned_data.get('username')
+            raw_password = userform.cleaned_data.get('password1')
+            
+            department = profileform.cleaned_data.get('department')
+
+            user = authenticate(username=username, password=raw_password)
+            profile = Profile(user=user, department=department)
+            profile.save()
+
+            login(request, user)
+            return redirect('all-complaints')
+
+    else:
+        userform = SignUpForm(prefix='userform')
+        profileform = ProfileForm(prefix='profileform')
+
+        return render(
+                    request, 
+                    'register.html', 
+                    {'userform': userform, 'profileform': profileform})
+
 
 def logout_page(request):
     logout(request)
-    return redirect(login)
+    return redirect(login_view)
+
+
+def not_approved(request):
+    return render(request, 'not_approved.html')

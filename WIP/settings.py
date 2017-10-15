@@ -20,10 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'lyw%s=-=7gd1cd!aws@@dayso4ihtkx1+a00n_ouiy2f4z9+z9'
+
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
 ALLOWED_HOSTS = []
 
@@ -38,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'complaint',
+    'djcelery',
+    'djcelery_email',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +131,12 @@ EMAIL_HOST_USER = os.environ.get("WIP_EMAIL", None)
 EMAIL_HOST_PASSWORD = os.environ.get("WIP_PASSWORD", None)
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
+# EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+
+
+TWITTER_CKEY = os.environ.get("TWITTER_CKEY", None)
+TWITTER_CSECRET = os.environ.get("TWITTER_CSECRET", None)
+TWITTER_ATOKEN = os.environ.get("TWITTER_ATOKEN", None)
+TWITTER_ASECRET = os.environ.get("TWITTER_ASECRET", None)
+
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'

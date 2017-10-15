@@ -15,20 +15,25 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from complaint.views import show_complaints
-from complaint.views import reject, signup
 from django.contrib.auth import views as auth_views
-from complaint.views import reject
-from complaint.views import resolved
-from complaint.views import detail, logout_page
+from complaint.views import (
+                    complaint_detail,
+                    login_view,                    
+                    logout_page,
+                    not_approved,
+                    reject,
+                    resolved,
+                    show_complaints,
+                    signup)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^show/$',show_complaints),
-    url(r'^reject/complaint/(\d{1,2})/$',reject),
-    url(r'^register/$',signup),
-    url(r'^$', auth_views.login, name='login'),
+    url(r'^show/$', show_complaints, name='all-complaints'),
+    url(r'^reject/complaint/(\d{1,2})/$', reject, name='reject-complaint'),
+    url(r'^register/$', signup, name='register'),
+    url(r'^$', login_view, name='login'),
     url(r'^logout/$', logout_page, name='logout'),
-    url(r'^resolved/complaint/(\d{1,2})/$',resolved),
-    url(r'^complaint/(\d{1,2})/',detail),
+    url(r'^resolved/complaint/(\d{1,2})/$', resolved, name='resolve-complaint'),
+    url(r'^complaint/(\d{1,2})/', complaint_detail, name='complaint-detail'),
+    url(r'^not-approved/$', not_approved, name='not-approved'),
 ]

@@ -1,190 +1,26 @@
-<html lang="en">
-<style>
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
+{% extends 'base.html' %}
 
-body {
-font-family: "Roboto", helvetica, arial, sans-serif;
-font-size: 16px;
-font-weight: 400;
-text-rendering: optimizeLegibility;
-}
+{% block title %}Complaints{% endblock %}
 
-div.table-title {
- display: block;
-margin: auto;
-max-width: 600px;
-padding:5px;
-width: 100%;
-}
+{% block content %}
+<br>
+<table class="table table-bordered">
+	<thead class="thead-default">
+    	<tr class="row">
+			<th class="col-sm-3">Posted By</th>
+			<th class="col-sm-6">Complaint</th>
+			<th class="col-sm-3">Details</th>
+    	</tr>
+	</thead>
+	<tbody>
+	{% for complaint in complaints %}
+		<tr class="row">
+			<td class="col-sm-3">{{complaint.posted_by}}</td>
+			<td class="col-sm-6">{{complaint.data}}</td>
+			<td class="col-sm-3"><a href="/complaint/{{complaint.id}}/"> <button class="btn btn-primary btn-block text-center" type="button">View</button> </a> </td>
+		</tr>
+	{% endfor %}
 
-.table-title h1 {
- color: black;
- font-size: 30px;
- font-weight: 400;
- font-style:normal;
- font-family: "Roboto", helvetica, arial, sans-serif;
- text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
- text-transform:uppercase;
-}
-
-.table-fill {
-background: white;
-border-radius:3px;
-border-collapse: collapse;
-height: 320px;
-margin: auto;
-max-width: 600px;
-padding:5px;
-width: 100%;
-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-animation: float 5s infinite;
-}
-
-th {
-color:#D5DDE5;;
-background:#1b1e24;
-border-bottom:4px solid #9ea7af;
-border-right: 1px solid #343a45;
-font-size:23px;
-font-weight: 100;
-padding:24px;
-text-align:left;
-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-vertical-align:middle;
-}
-
-th:first-child {
-border-top-left-radius:3px;
-}
-
-th:last-child {
-border-top-right-radius:3px;
-border-right:none;
-}
-
-tr {
-border-top: 1px solid #C1C3D1;
-border-bottom-: 1px solid #C1C3D1;
-color:#666B85;
-font-size:16px;
-font-weight:normal;
-text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
-}
-
-tr:hover td {
-background:#4E5066;
-color:#FFFFFF;
-border-top: 1px solid #22262e;
-border-bottom: 1px solid #22262e;
-}
-
-tr:first-child {
-border-top:none;
-}
-
-tr:last-child {
-border-bottom:none;
-}
-
-tr:nth-child(odd) td {
-background:#EBEBEB;
-}
-
-tr:nth-child(odd):hover td {
-background:#4E5066;
-}
-
-tr:last-child td:first-child {
-border-bottom-left-radius:3px;
-}
-
-tr:last-child td:last-child {
-border-bottom-right-radius:3px;
-}
-
-td {
-background:#FFFFFF;
-padding:20px;
-text-align:left;
-vertical-align:middle;
-font-weight:300;
-font-size:18px;
-text-shadow: : -1px -1px 1px rgba(0, 0, 0, 0.1);
-border-right: 1px solid #C1C3D1;
-}
-
-td:last-child {
-border-right: 0px;
-}
-
-th.text-left {
-text-align: left;
-}
-
-th.text-center {
-text-align: center;
-}
-
-th.text-right {
-text-align: right;
-}
-
-td.text-left {
-text-align: left;
-}
-
-td.text-center {
-text-align: center;
-}
-
-td.text-right {
-text-align: right;
-}
-
-button{
-	width: 200px;
-	height: 30px;
-	background: #1b1e24;
-	border: 1px solid white;
-	cursor: pointer;
-	border-radius: 2px;
-	color: white;
-	font-family: 'Exo', sans-serif;
-	font-size: 15px;
-	font-weight: 1000;
-	padding: 1px;
-	margin-top: 10px;
-}
-
-</style>
-<head>
-	<meta charset="utf-8" />
-	<title>Complaints</title>
-	<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
-</head>
-
-<body>
-<div class="table-title">
-<h1>LNMIIT COMPLAINT FORUM</h1>
-</div>
-<table class="table-fill">
-<thead>
-<tr>
-<th class="text-left">POSTED BY</th>
-<th class="text-left">COMPLAINT</th>
-<th class="text-left">REJECTION</th>
-<th class="text-left">SHOW COMPALINT </th>
-</tr>
-</thead>
-<tbody class="table-hover">
-<tr>
-{% for complaint in complaints %}
-<td class="text-left">{{complaint.posted_by}}</td>
-<td class="text-left">{{complaint.department}}</td>
-<td class="text-left"><a href="/reject/complaint/{{complaint.id}}/" > <button type="button" onclick="alert('Are you sure??')">REJECT</button> </a></td>
-<td class="text-left"><a href="/complaint/{{complaint.id}}/"> <button type="button">VIEW</button> </a> </td>
-</tr>
-{% endfor %}
-<a href="/logout"> <button type="button">LOGOUT</button> </a>
+	</tbody>
 </table>
-</body>
+{% endblock %}
