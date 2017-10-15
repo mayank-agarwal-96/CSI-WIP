@@ -37,7 +37,7 @@ class listener(StreamListener):
                 flag=0
                 break;
         if flag!=0:
-            dept=None
+            dept=""
 
         complaint.posted_by=username
         complaint.data=tweet

@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class Complaint(models.Model):
     posted_by=models.CharField(max_length=20)
     date=models.DateField()
-    department=models.CharField(max_length=20, null=True)
+    department=models.CharField(max_length=20, null=True, blank=True)
     data=models.CharField(max_length=140)
     validity=models.BooleanField(default=True)
     resolved=models.BooleanField(default=False)

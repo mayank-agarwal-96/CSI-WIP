@@ -13,11 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.conf.urls import url
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from complaint.views import (
                     complaint_detail,
+                    home,
                     login_view,                    
                     logout_page,
                     not_approved,
@@ -28,12 +31,16 @@ from complaint.views import (
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', home, name='home'),
     url(r'^show/$', show_complaints, name='all-complaints'),
     url(r'^reject/complaint/(\d{1,2})/$', reject, name='reject-complaint'),
     url(r'^register/$', signup, name='register'),
-    url(r'^$', login_view, name='login'),
+    url(r'^login/$', login_view, name='login'),
     url(r'^logout/$', logout_page, name='logout'),
     url(r'^resolved/complaint/(\d{1,2})/$', resolved, name='resolve-complaint'),
     url(r'^complaint/(\d{1,2})/', complaint_detail, name='complaint-detail'),
     url(r'^not-approved/$', not_approved, name='not-approved'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -48,20 +48,27 @@ def complaint_detail(request, cid):
 @user_approved_by_admin
 def show_complaints(request):
     #if user.is_authenticated()
+
+    dept_map = {
+        "EDC": "education",
+        "CSH": "cosha",
+        "HST": "hostel",
+        "GEN": "general",
+    }
+
     current_user=request.user
     print current_user
     try:
-        name = Profile.objects.get(user = current_user)
+        name = Profile.objects.get(user=current_user)
     #department=current_user.profile.department
     #print department
         department=name.department
-        print department
     except:
         department = None
     all_complaint=Complaint.objects.all().filter(validity=True, resolved=False)
     if department is not None:
-        all_complaint = all_complaint.filter(Q(department=department) | Q(department=""))
-    return render(request,'prints.html',{'complaints' : all_complaint})
+        all_complaint = all_complaint.filter(Q(department=dept_map[department]) | Q(department=""))
+    return render(request, 'prints.html', {'complaints' : all_complaint})
 
 
 @login_required(login_url="/")
@@ -137,3 +144,7 @@ def logout_page(request):
 
 def not_approved(request):
     return render(request, 'not_approved.html')
+
+
+def home(request):
+    return render(request, 'home.html')

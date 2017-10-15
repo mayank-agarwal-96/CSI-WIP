@@ -1,8 +1,0 @@
-<html>
-<ul>
-  <h2>All Complaints</h2>
-  {% for complaint in all_complaint %}
-  <li>{{complaint.data}}
-    <button type = "button" onclick="window.location.href='/complaint/{{complaint.id}}/'"> view </button></li>
-  {% endfor %}
-</ul>

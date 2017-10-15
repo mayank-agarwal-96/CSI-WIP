@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% load static %}
+
+{% block body %}
+<style type="text/css">
+	body {
+    	background-image: url("{% static 'images/lnmiit.jpg' %}");
+    	background-repeat: no-repeat;
+	}
+</style>
+
+<body>
+	<div class="container">
+		<br>
+		<br>
+		<div class="row">
+			<div class="col-md-6 offset-md-3 col-sm-10 offset-sm-1">
+				<h1> LNMIIT Complaints Portal</h1>
+			</div>
+		</div>
+		<br><br><br><br><br><br><br>
+		<div class="row">
+			<div class="col-md-4 offset-md-4 col-sm-10 offset-sm-1">
+				<a href="{% url 'login' %}"><button class="btn btn-primary btn-block text-center">Get Started</button></a>
+			</div>
+		</div>
+	</div>
+</body>
+{% endblock %}
