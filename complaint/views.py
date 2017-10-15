@@ -68,7 +68,12 @@ def show_complaints(request):
     all_complaint=Complaint.objects.all().filter(validity=True, resolved=False)
     if department is not None:
         all_complaint = all_complaint.filter(Q(department=dept_map[department]) | Q(department=""))
-    return render(request, 'prints.html', {'complaints' : all_complaint})
+    return render(
+            request, 
+            'prints.html', 
+            {
+                'complaints' : all_complaint, 
+                'dept': dept_map[department].upper})
 
 
 @login_required(login_url="/login/")
