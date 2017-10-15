@@ -20,7 +20,7 @@ atoken = settings.TWITTER_ATOKEN
 asecret = settings.TWITTER_ASECRET
 
 
-@login_required(login_url="/login")
+@login_required(login_url="/login/")
 @user_approved_by_admin
 def resolved(request, cid):
     cid=int(cid)
@@ -36,7 +36,7 @@ def resolved(request, cid):
     return redirect(show_complaints)
 
 
-@login_required(login_url="/login")
+@login_required(login_url="/login/")
 @user_approved_by_admin
 def complaint_detail(request, cid):
     data = Complaint.objects.get(pk=cid)
@@ -44,7 +44,7 @@ def complaint_detail(request, cid):
     return render(request, 'complaint_detail.html', context)
 
 
-@login_required(login_url="/login")
+@login_required(login_url="/login/")
 @user_approved_by_admin
 def show_complaints(request):
     #if user.is_authenticated()
@@ -71,7 +71,7 @@ def show_complaints(request):
     return render(request, 'prints.html', {'complaints' : all_complaint})
 
 
-@login_required(login_url="/login")
+@login_required(login_url="/login/")
 @user_approved_by_admin
 def reject(request,get_id):
     auth = tweepy.OAuthHandler(ckey, csecret)
